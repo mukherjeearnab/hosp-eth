@@ -39,4 +39,19 @@ contract Hospital {
         uint timestamp;                 // Unix Timestamp of init. of Prescription
         string prescriptionContent;     // String/JSON of Prescription content
     }
+
+    modifier onlyAdmin() {
+        require(msg.sender == admin, "Sender NOT Admin.");          // Check if Sender is Admin
+        _;
+    }
+
+    modifier onlyModerator() {
+        require(moderators(msg.sender), "Sender NOT Moderator.");   // Check if Sender is Moderator
+        _;
+    }
+
+    modifier onlyDoctor() {
+        require(doctors(msg.sender), "Sender NOT Doctor.");         // Check if Sender is Doctor
+        _;
+    }
 }
