@@ -1,6 +1,7 @@
 pragma solidity ^0.5.13;
 
 contract Hospital {
+    string hospitalName;                                        // String to store Name of the Hospital
     address public admin;                                       // Address of Ceator & Administrator of the contract
     bytes10[] patients;                                         // List of Patient ID's
     mapping (address => bool) public doctors;                   // Mapping for Doctors
@@ -53,5 +54,12 @@ contract Hospital {
     modifier onlyDoctor() {
         require(doctors(msg.sender), "Sender NOT Doctor.");         // Check if Sender is Doctor
         _;
+    }
+
+    // Constructor to create the Contract
+    constructor(string _hospitalName) public {
+        admin = msg.sender;             // Setting the Admin
+        hospitalName = _hospitalName;   // Setting the Hospital Name
+        patients = new bytes10[](0);    // Init. of bytes10[] patients List
     }
 }
