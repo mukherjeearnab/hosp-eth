@@ -3,7 +3,7 @@ pragma solidity ^0.5.13;
 contract Hospital {
     string hospitalName;                                        // String to store Name of the Hospital
     address public admin;                                       // Address of Ceator & Administrator of the contract
-    bytes10[] patients;                                         // List of Patient ID's
+    bytes64[] patients;                                         // List of Patient ID's (HASH of PatientID)
     mapping (address => bool) public doctors;                   // Mapping for Doctors
     mapping (address => bool) public moderators;                // Mapping for Moderators
     mapping (bytes10 => patientProfile) public patientMap;      // Mapping to store (Patient's Address) => (Patient's Details)
@@ -60,6 +60,21 @@ contract Hospital {
     constructor(string _hospitalName) public {
         admin = msg.sender;             // Setting the Admin
         hospitalName = _hospitalName;   // Setting the Hospital Name
-        patients = new bytes10[](0);    // Init. of bytes10[] patients List
+        patients = new bytes64[](0);    // Init. of bytes10[] patients List
+    }
+
+    // Function to Add new Patient
+    function addPatient(bytes10 _pID, string _name, uint _DoB, uint8 _gender, uint16 _height, uint16 _weight, string _bloodGroup) public {
+        patientProfile memory newPatient = patientProfile({
+            name: _name,
+            DoB: _DoB,
+            gender: _gender,
+            height: _height,
+            weight: _weight,
+            bloodGroup: _bloodGroup,
+            prescriptions: new bytes64[](0);
+        });
+        patients.push(_pID);                // Push PatientID to patients List
+        patientMap[_pID] = newPatient;      // Add newPatient to patientMap
     }
 }
