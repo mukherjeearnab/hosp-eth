@@ -21,11 +21,24 @@ contract PrescriptionVault {
         address doctor;                 // Address of Doctor who prescribed
         bytes32 patient;                // ID of Patient prescribes for
         uint timestamp;                 // Unix Timestamp of init. of Prescription
-        string prescriptionContent;     // String/JSON of Prescription content
+        string content;     // String/JSON of Prescription content
+    }
+
+    // Function to Add new Prescription
+    function addNewPrescription(bytes32 memory _presID, address _doctor,
+                                bytes32 memory _patient, uint _timestamp,
+                                string memory _content) public {
+        prescription memory newPrescription = prescription({
+            doctor: _doctor,
+            patient: _patient,
+            timestamp: _timestamp,
+            content: _content
+        });
+        prescriptionMap[_presID] = newPrescription;      // Add newPrescription to prescriptionMap
     }
 
     // Function to self-destruct ONLY FOR TESTING
-    function kill() public onlyAdmin {
+    function kill() public onlyHospital {
         selfdestruct(address(uint160(admin)));
     }
 }
