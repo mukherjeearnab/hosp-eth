@@ -104,6 +104,32 @@ contract Hospital {
         doctorsMap[_pID] = newDoctor;      // Add newDoctor to doctorsMap
     }
 
+    // Function to Edit a Patient
+    function editPatient(bytes32 _pID, string memory _name, uint _DoB,
+                        uint8 _gender, uint16 _height, uint16 _weight,
+                        string memory _bloodGroup) public onlyModerator {
+        patientsMap[_pID].name = _name;
+        patientsMap[_pID].DoB = _DoB;
+        patientsMap[_pID].gender = _gender;
+        patientsMap[_pID].height = _height;
+        patientsMap[_pID].weight = _weight;
+        patientsMap[_pID].bloodGroup = _bloodGroup;
+    }
+
+    // Function to Edit a Doctor
+    function editDoctor(address _pID, string memory _ID, string memory _name, uint _DoB,
+                        uint8 _gender, uint16 _height, uint16 _weight,
+                        string memory _bloodGroup, bytes32 _licience) public onlyModerator {
+        doctorsMap[_pID].ID = _ID;
+        doctorsMap[_pID].name = _name;
+        doctorsMap[_pID].DoB = _DoB;
+        doctorsMap[_pID].gender = _gender;
+        doctorsMap[_pID].height = _height;
+        doctorsMap[_pID].weight = _weight;
+        doctorsMap[_pID].bloodGroup = _bloodGroup;
+        doctorsMap[_pID].licience = _licience;
+    }
+
     // Function to Add new Prescription
     function addNewPrescription(bytes32 memory _presID, address _doctor,
                                 bytes32 memory _patient, uint _timestamp,
