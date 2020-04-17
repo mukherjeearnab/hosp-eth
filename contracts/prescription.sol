@@ -27,7 +27,7 @@ contract PrescriptionVault {
     // Function to Add new Prescription
     function addNewPrescription(bytes32 memory _presID, address _doctor,
                                 bytes32 memory _patient, uint _timestamp,
-                                string memory _content) public {
+                                string memory _content) public onlyHospital {
         prescription memory newPrescription = prescription({
             doctor: _doctor,
             patient: _patient,
@@ -36,6 +36,8 @@ contract PrescriptionVault {
         });
         prescriptionMap[_presID] = newPrescription;      // Add newPrescription to prescriptionMap
     }
+
+
 
     // Function to self-destruct ONLY FOR TESTING
     function kill() public onlyHospital {

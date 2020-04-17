@@ -104,9 +104,23 @@ contract Hospital {
         doctorsMap[_pID] = newDoctor;      // Add newDoctor to doctorsMap
     }
 
+    // Function to Add new Prescription
+    function addNewPrescription(bytes32 memory _presID, address _doctor,
+                                bytes32 memory _patient, uint _timestamp,
+                                string memory _content) public onlyDoctor {
+        prescriptionVault.addNewPrescription(_presID, _doctor, _patient, _timestamp, _content);
+        doctorsMap[_doctor].prescriptions.push(_presID);
+        patientMap[_patient].prescriptions.push(_presID);
+    }
+
     // Function to return the List of Prescriptions of a Patient
     function retPatientPrescriptions(bytes32 _pID) public view returns(bytes32[] memory) {
         return patientMap[_pID].prescriptions;
+    }
+
+    // Function to return the List of Prescriptions of a Doctor
+    function retDoctorsPrescriptions(bytes32 _pID) public view returns(bytes32[] memory) {
+        return doctorsMap[_pID].prescriptions;
     }
 
     // Function to self-destruct ONLY FOR TESTING
