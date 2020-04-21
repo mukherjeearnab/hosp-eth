@@ -108,12 +108,12 @@ contract Hospital {
     function editPatient(bytes32 _pID, string memory _name, uint _DoB,
                         uint8 _gender, uint16 _height, uint16 _weight,
                         string memory _bloodGroup) public onlyModerator {
-        patientsMap[_pID].name = _name;
-        patientsMap[_pID].DoB = _DoB;
-        patientsMap[_pID].gender = _gender;
-        patientsMap[_pID].height = _height;
-        patientsMap[_pID].weight = _weight;
-        patientsMap[_pID].bloodGroup = _bloodGroup;
+        patientMap[_pID].name = _name;
+        patientMap[_pID].DoB = _DoB;
+        patientMap[_pID].gender = _gender;
+        patientMap[_pID].height = _height;
+        patientMap[_pID].weight = _weight;
+        patientMap[_pID].bloodGroup = _bloodGroup;
     }
 
     // Function to Edit a Doctor
@@ -145,7 +145,7 @@ contract Hospital {
     }
 
     // Function to return the List of Prescriptions of a Doctor
-    function retDoctorsPrescriptions(bytes32 _pID) public view returns(bytes32[] memory) {
+    function retDoctorsPrescriptions(address _pID) public view returns(bytes32[] memory) {
         return doctorsMap[_pID].prescriptions;
     }
 
