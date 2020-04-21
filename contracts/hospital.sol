@@ -127,6 +127,16 @@ contract Hospital {
         doctorsMap[_pID].bloodGroup = _bloodGroup;
     }
 
+    // Function to Remove a Moderator
+    function removeModerator(address _moderator) public onlyAdmin {
+        moderators[_moderator] = false;
+    }
+
+    // Function to Remove a Doctor
+    function removeDoctor(address _doctor) public onlyModerator {
+        delete doctors[_doctor];
+    }
+
     // Function to Add new Prescription
     function addNewPrescription(bytes32 _presID, address _doctor,
                                 bytes32 _patient, uint _timestamp,
