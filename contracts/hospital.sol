@@ -33,7 +33,6 @@ contract Hospital {
         uint16 height;                  // Doctor's Height (in Centimeters)
         uint16 weight;                  // Doctor's Weight (in Kilograms)
         string bloodGroup;              // Doctor's Blood-Group (as O+, A-, AB+ etc.)
-        bytes32 licience;               // Doctor's HASH of licience stored in Swarm
         bytes32[] prescriptions;        // Doctor's List of Prescriptions Prescribed
     }
 
@@ -88,7 +87,7 @@ contract Hospital {
     // Function to Add new Doctor
     function addDoctor(address _pID, string memory _ID, string memory _name, uint _DoB,
                         uint8 _gender, uint16 _height, uint16 _weight,
-                        string memory _bloodGroup, bytes32 _licience) public onlyModerator {
+                        string memory _bloodGroup) public onlyModerator {
         doctorsProfile memory newDoctor = doctorsProfile({
             ID: _ID,
             name: _name,
@@ -97,7 +96,6 @@ contract Hospital {
             height: _height,
             weight: _weight,
             bloodGroup: _bloodGroup,
-            licience: _licience,
             prescriptions: new bytes32[](0)
         });
         doctors[_pID] = true;              // Add Doctor's Address to doctors mapping
@@ -119,7 +117,7 @@ contract Hospital {
     // Function to Edit a Doctor
     function editDoctor(address _pID, string memory _ID, string memory _name, uint _DoB,
                         uint8 _gender, uint16 _height, uint16 _weight,
-                        string memory _bloodGroup, bytes32 _licience) public onlyModerator {
+                        string memory _bloodGroup) public onlyModerator {
         doctorsMap[_pID].ID = _ID;
         doctorsMap[_pID].name = _name;
         doctorsMap[_pID].DoB = _DoB;
@@ -127,7 +125,6 @@ contract Hospital {
         doctorsMap[_pID].height = _height;
         doctorsMap[_pID].weight = _weight;
         doctorsMap[_pID].bloodGroup = _bloodGroup;
-        doctorsMap[_pID].licience = _licience;
     }
 
     // Function to Add new Prescription
