@@ -131,8 +131,8 @@ contract Hospital {
     }
 
     // Function to Add new Prescription
-    function addNewPrescription(bytes32 memory _presID, address _doctor,
-                                bytes32 memory _patient, uint _timestamp,
+    function addNewPrescription(bytes32 _presID, address _doctor,
+                                bytes32 _patient, uint _timestamp,
                                 string memory _content) public onlyDoctor {
         prescriptionVault.addNewPrescription(_presID, _doctor, _patient, _timestamp, _content);
         doctorsMap[_doctor].prescriptions.push(_presID);

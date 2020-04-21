@@ -14,6 +14,7 @@ contract PrescriptionVault {
     // Constructor to create the Contract
     constructor(string memory _hospitalName) public {
         hospital = msg.sender;          // Setting the Hospital
+        hospitalName = _hospitalName;   // Setting the Hospital Name
     }
 
     // Structure to store details of a Prescriptions
@@ -25,8 +26,8 @@ contract PrescriptionVault {
     }
 
     // Function to Add new Prescription
-    function addNewPrescription(bytes32 memory _presID, address _doctor,
-                                bytes32 memory _patient, uint _timestamp,
+    function addNewPrescription(bytes32 _presID, address _doctor,
+                                bytes32 _patient, uint _timestamp,
                                 string memory _content) public onlyHospital {
         prescription memory newPrescription = prescription({
             doctor: _doctor,
@@ -41,6 +42,6 @@ contract PrescriptionVault {
 
     // Function to self-destruct ONLY FOR TESTING
     function kill() public onlyHospital {
-        selfdestruct(address(uint160(admin)));
+        selfdestruct(address(uint160(hospital)));
     }
 }
