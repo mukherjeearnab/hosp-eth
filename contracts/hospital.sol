@@ -7,10 +7,10 @@ contract Hospital {
     PrescriptionVault public prescriptionVault;                 // PrescriptionVault Contract
     string public hospitalName;                                 // String to store Name of the Hospital
     address public admin;                                       // Address of Ceator & Administrator of the contract
-    bytes32[] patients;                                         // List of Patient ID's (HASH of PatientID)
+    bytes16[] patients;                                         // List of Patient ID's (HASH of PatientID)
     mapping (address => bool) public doctors;                   // Mapping for Doctors
     mapping (address => bool) public moderators;                // Mapping for Moderators
-    mapping (bytes32 => patientProfile) public patientMap;      // Mapping to store (Patient's Address) => (Patient's Details)
+    mapping (bytes16 => patientProfile) public patientMap;      // Mapping to store (Patient's Address) => (Patient's Details)
     mapping (address => doctorsProfile) public doctorsMap;      // Mapping to store (Doctor's Address) => (Doctor's Details)
 
     // Structure to store details of a Patients
@@ -21,7 +21,7 @@ contract Hospital {
         uint16 height;                  // Patient's Height (in Centimeters)
         uint16 weight;                  // Patient's Weight (in Kilograms)
         string bloodGroup;              // Patient's Blood-Group (as O+, A-, AB+ etc.)
-        bytes32[] prescriptions;        // Patient's List of Prescriptions
+        bytes16[] prescriptions;        // Patient's List of Prescriptions
     }
 
     // Structure to store details of a Doctors
@@ -33,7 +33,7 @@ contract Hospital {
         uint16 height;                  // Doctor's Height (in Centimeters)
         uint16 weight;                  // Doctor's Weight (in Kilograms)
         string bloodGroup;              // Doctor's Blood-Group (as O+, A-, AB+ etc.)
-        bytes32[] prescriptions;        // Doctor's List of Prescriptions Prescribed
+        bytes16[] prescriptions;        // Doctor's List of Prescriptions Prescribed
     }
 
     modifier onlyAdmin() {
@@ -55,7 +55,7 @@ contract Hospital {
     constructor(string memory _hospitalName) public {
         admin = msg.sender;             // Setting the Admin
         hospitalName = _hospitalName;   // Setting the Hospital Name
-        patients = new bytes32[](0);    // Init. of bytes32[] patients List
+        patients = new bytes16[](0);    // Init. of bytes16[] patients List
         prescriptionVault = new PrescriptionVault(_hospitalName);
     }
 
@@ -68,7 +68,7 @@ contract Hospital {
     }
 
     // Function to Add new Patient
-    function addPatient(bytes32 _pID, string memory _name, uint _DoB,
+    function addPatient(bytes16 _pID, string memory _name, uint _DoB,
                         uint8 _gender, uint16 _height, uint16 _weight,
                         string memory _bloodGroup) public onlyModerator {
         patientProfile memory newPatient = patientProfile({
@@ -78,7 +78,7 @@ contract Hospital {
             height: _height,
             weight: _weight,
             bloodGroup: _bloodGroup,
-            prescriptions: new bytes32[](0)
+            prescriptions: new bytes16[](0)
         });
         patients.push(_pID);                // Push PatientID to patients List
         patientMap[_pID] = newPatient;      // Add newPatient to patientMap
@@ -96,14 +96,14 @@ contract Hospital {
             height: _height,
             weight: _weight,
             bloodGroup: _bloodGroup,
-            prescriptions: new bytes32[](0)
+            prescriptions: new bytes16[](0)
         });
         doctors[_pID] = true;              // Add Doctor's Address to doctors mapping
         doctorsMap[_pID] = newDoctor;      // Add newDoctor to doctorsMap
     }
 
     // Function to Edit a Patient
-    function editPatient(bytes32 _pID, string memory _name, uint _DoB,
+    function editPatient(bytes16 _pID, string memory _name, uint _DoB,
                         uint8 _gender, uint16 _height, uint16 _weight,
                         string memory _bloodGroup) public onlyModerator {
         patientMap[_pID].name = _name;
@@ -139,8 +139,8 @@ contract Hospital {
     }
 
     // Function to Add new Prescription
-    function addNewPrescription(bytes32 _presID, address _doctor,
-                                bytes32 _patient, uint _timestamp,
+    function addNewPrescription(bytes16 _presID, address _doctor,
+                                bytes16 _patient, uint _timestamp,
                                 string memory _content) public onlyDoctor {
         prescriptionVault.addNewPrescription(_presID, _doctor, _patient, _timestamp, _content);
         doctorsMap[_doctor].prescriptions.push(_presID);
@@ -148,12 +148,12 @@ contract Hospital {
     }
 
     // Function to return the List of Prescriptions of a Patient
-    function retPatientPrescriptions(bytes32 _pID) public view returns(bytes32[] memory) {
+    function retPatientPrescriptions(bytes16 _pID) public view returns(bytes16[] memory) {
         return patientMap[_pID].prescriptions;
     }
 
     // Function to return the List of Prescriptions of a Doctor
-    function retDoctorsPrescriptions(address _pID) public view returns(bytes32[] memory) {
+    function retDoctorsPrescriptions(address _pID) public view returns(bytes16[] memory) {
         return doctorsMap[_pID].prescriptions;
     }
 
