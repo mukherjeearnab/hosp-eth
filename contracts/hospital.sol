@@ -34,6 +34,7 @@ contract Hospital {
         uint16 weight;                  // Doctor's Weight (in Kilograms)
         string bloodGroup;              // Doctor's Blood-Group (as O+, A-, AB+ etc.)
         bytes16[] prescriptions;        // Doctor's List of Prescriptions Prescribed
+        bool exists;                    // Check if Profile Exists
     }
 
     modifier onlyAdmin() {
@@ -96,7 +97,8 @@ contract Hospital {
             height: _height,
             weight: _weight,
             bloodGroup: _bloodGroup,
-            prescriptions: new bytes16[](0)
+            prescriptions: new bytes16[](0),
+            exists: true
         });
         doctors[_pID] = true;              // Add Doctor's Address to doctors mapping
         doctorsMap[_pID] = newDoctor;      // Add newDoctor to doctorsMap
@@ -135,6 +137,12 @@ contract Hospital {
     // Function to Remove a Doctor
     function removeDoctor(address _doctor) public onlyModerator {
         delete doctors[_doctor];
+    }
+
+    // Function to Enable a Doctor
+    function enableDoctor(address _doctor) public onlyModerator {
+        require(doctorsMap[_doctor].exists, "Doctor Profile Doesn't Exist!");
+        doctors[_doctor] = true;
     }
 
     // Function to Add new Prescription
