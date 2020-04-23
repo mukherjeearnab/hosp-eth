@@ -135,7 +135,6 @@ contract Hospital {
     // Function to Remove a Doctor
     function removeDoctor(address _doctor) public onlyModerator {
         delete doctors[_doctor];
-        delete doctorsMap[_doctor];
     }
 
     // Function to Add new Prescription

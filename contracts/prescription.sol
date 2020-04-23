@@ -22,7 +22,7 @@ contract PrescriptionVault {
         address doctor;                 // Address of Doctor who prescribed
         bytes16 patient;                // ID of Patient prescribes for
         uint timestamp;                 // Unix Timestamp of init. of Prescription
-        string content;     // String/JSON of Prescription content
+        string content;                 // String/JSON of Prescription content
     }
 
     // Function to Add new Prescription
